@@ -1,165 +1,36 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-<meta charset="UTF-8">
-<title>فاتورة</title>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>نموذج</title>
 <style>
-body{
-    font-family: Arial, sans-serif;
-    padding:20px;
-}
-.inbut{
-    margin: auto;
-    margin: auto;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: center;
-    gap: 46px;
-}
-input{
-    width:45%;
-    padding:10px;
-    margin:10px 0;
-}
-h2{
-    text-align: center;
-}
-button{
-    padding:10px 20px;
-    display: block;
-    text-align: center;
-    margin: auto;
-    background: black;
-    border: navajowhite;
-    color: white;
-    font-size: 24px;
-    border-radius: 16px;
-    font-weight: bold;
-}
-
-#invoice{
-    margin: 53px auto;
-    display: flex;
-    flex-direction: column;
-  
-    font-size: 30px;
-    gap: 20px;
-}
-
-.header{
-    text-align:center;
-}
-
-.row{
-    margin:10px 0;
-}
-.inbut{
-
-}
+  *{box-sizing:border-box}
+  body{margin:0;padding:24px;font-family:Tahoma,Arial,sans-serif;background:#f3f1ec;color:#1d2a2a}
+  .sheet{max-width:800px;margin:0 auto;background:#fff;border-top:10px solid #0f6b5c;padding:28px;border-radius:4px}
+  .row{display:flex;gap:12px;margin-bottom:16px;padding-bottom:16px;border-bottom:1px solid #d6e4e1}
+  .row input{font:inherit;font-size:17px;padding:10px 12px;border:1px solid #b9d3cd;border-radius:6px;background:#fff;color:#1d2a2a}
+  .row .name{flex:0 0 38%;background:#eaf3f1;color:#0f6b5c;font-weight:700;border-color:#0f6b5c}
+  .row .val{flex:1}
+  button{font:inherit;font-size:17px;background:#0f6b5c;color:#fff;border:0;border-radius:6px;padding:12px 22px;cursor:pointer;margin-top:8px}
+  @page{size:A4;margin:14mm}
+  @media print{
+    body{background:#fff;padding:0}
+    .sheet{padding:0;max-width:none}
+    button{display:none}
+  }
 </style>
 </head>
 <body>
-
-<h2>إنشاء فاتورة</h2>
-<div class="inbut">
-<input id="customerName" placeholder="اسم العميل">
-<input id="customerPhone" placeholder="رقم الهاتف">
-<input id="productName" placeholder="اسم المنتج">
-<input id="productCategory" placeholder="الصنف">
-<input id="productPrice" placeholder="السعر">
+<div class="sheet">
+  <div class="row"><input class="name" type="text"><input class="val" type="text"></div>
+  <div class="row"><input class="name" type="text"><input class="val" type="text"></div>
+  <div class="row"><input class="name" type="text"><input class="val" type="text"></div>
+  <div class="row"><input class="name" type="text"><input class="val" type="text"></div>
+  <div class="row"><input class="name" type="text"><input class="val" type="text"></div>
+  <button onclick="window.print()">طباعة / حفظ PDF</button>
 </div>
-<button onclick="generatePDF()">تحميل الفاتورة PDF</button>
-
-<div id="invoice">
-
-    <div class="header">
-        <h1>فاتورة بيع</h1>
-        <p id="date"></p>
-    </div>
-
-    <hr>
-
-    <div class="row">
-        <strong>اسم العميل:</strong>
-        <span id="pdfCustomer"></span>
-    </div>
-
-    <div class="row">
-        <strong>رقم الهاتف:</strong>
-        <span id="pdfPhone"></span>
-    </div>
-
-    <div class="row">
-        <strong>المنتج:</strong>
-        <span id="pdfProduct"></span>
-    </div>
-
-    <div class="row">
-        <strong>الصنف:</strong>
-        <span id="pdfCategory"></span>
-    </div>
-
-    <div class="row">
-        <strong>السعر:</strong>
-        <span id="pdfPrice"></span> جنيه
-    </div>
-
-    <hr>
-
-    <h3>
-        الإجمالي:
-        <span id="pdfTotal"></span>
-        جنيه
-    </h3>
-
-</div>
-
-<script>
-function generatePDF(){
-
-    document.getElementById("pdfCustomer").innerText =
-        document.getElementById("customerName").value;
-
-    document.getElementById("pdfPhone").innerText =
-        document.getElementById("customerPhone").value;
-
-    document.getElementById("pdfProduct").innerText =
-        document.getElementById("productName").value;
-
-    document.getElementById("pdfCategory").innerText =
-        document.getElementById("productCategory").value;
-
-    document.getElementById("pdfPrice").innerText =
-        document.getElementById("productPrice").value;
-
-    document.getElementById("pdfTotal").innerText =
-        document.getElementById("productPrice").value;
-
-    document.getElementById("date").innerText =
-        "التاريخ: " + new Date().toLocaleDateString("ar-EG");
-
-    const element = document.getElementById("invoice");
-
-    html2pdf()
-        .set({
-            margin: 10,
-            filename: "فاتورة.pdf",
-            image: { type: "jpeg", quality: 1 },
-            html2canvas: { scale: 2 },
-            jsPDF: {
-                unit: "mm",
-                format: "a4",
-                orientation: "portrait"
-            }
-        })
-        .from(element)
-        .save();
-}
-</script>
-
 </body>
 </html>
+
+    
