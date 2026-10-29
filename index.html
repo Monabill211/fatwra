@@ -2,34 +2,148 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>نموذج</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>منشئ الفواتير</title>
 <style>
-  *{box-sizing:border-box}
-  body{margin:0;padding:24px;font-family:Tahoma,Arial,sans-serif;background:#f3f1ec;color:#1d2a2a}
-  .sheet{max-width:800px;margin:0 auto;background:#fff;border-top:10px solid #0f6b5c;padding:28px;border-radius:4px}
-  .row{display:flex;gap:12px;margin-bottom:16px;padding-bottom:16px;border-bottom:1px solid #d6e4e1}
-  .row input{font:inherit;font-size:17px;padding:10px 12px;border:1px solid #b9d3cd;border-radius:6px;background:#fff;color:#1d2a2a}
-  .row .name{flex:0 0 38%;background:#eaf3f1;color:#0f6b5c;font-weight:700;border-color:#0f6b5c}
-  .row .val{flex:1}
-  button{font:inherit;font-size:17px;background:#0f6b5c;color:#fff;border:0;border-radius:6px;padding:12px 22px;cursor:pointer;margin-top:8px}
-  @page{size:A4;margin:14mm}
-  @media print{
-    body{background:#fff;padding:0}
-    .sheet{padding:0;max-width:none}
-    button{display:none}
-  }
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);--bg:#f4f5f2;--card:#fff;--tx:#1d2218;--mut:#667060;--bd:#d9ddd3;--g:#5f9a2a}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#171a14;--card:#22261e;--tx:#eef1e9;--mut:#a3ab9a;--bd:#3a4033}}
+:root[data-theme="dark"]{--bg:#171a14;--card:#22261e;--tx:#eef1e9;--mut:#a3ab9a;--bd:#3a4033}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--tx);font-family:system-ui,-apple-system,"Segoe UI",Tahoma,Arial,sans-serif}
+.controls{max-width:760px;margin:0 auto;padding:14px}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:14px;margin-bottom:12px}
+h2{font-size:15px;margin:0 0 10px;color:var(--g)}
+label{display:block;font-size:12px;color:var(--mut);margin:8px 0 3px}
+input,textarea{width:100%;padding:9px;border:1px solid var(--bd);border-radius:8px;background:var(--bg);color:var(--tx);font:inherit;font-size:14px}
+textarea{min-height:60px}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.item{display:grid;grid-template-columns:1fr 60px 80px 34px;gap:6px;margin-bottom:6px;direction:ltr}
+.item button{border:0;background:#c0392b;color:#fff;border-radius:8px}
+button.b{width:100%;padding:12px;border:0;border-radius:10px;font:inherit;font-weight:700;cursor:pointer;margin-top:6px}
+.add{background:var(--bd);color:var(--tx)}
+.pr{background:var(--g);color:#fff;font-size:16px}
+#wrap{display:flex;justify-content:center;padding:0 0 30px}
+.paper{width:794px;min-height:1123px;background:#fff;color:#222;position:relative;direction:ltr;font-family:Arial,Helvetica,sans-serif;box-shadow:0 2px 12px #0003;overflow:hidden;flex:none}
+.top{height:90px;background:#5f9a2a;clip-path:polygon(0 0,100% 0,100% 55%,78% 100%,0 70%)}
+.bot{position:absolute;bottom:0;left:0;right:0;height:60px;background:#5f9a2a;clip-path:polygon(0 100%,100% 100%,100% 40%,35% 0,0 40%)}
+.in{padding:0 56px}
+.hd{display:flex;justify-content:space-between;align-items:flex-start;margin-top:26px}
+.logo{width:150px;height:80px;display:flex;align-items:center;font-weight:700;font-size:15px}
+.logo img{max-width:150px;max-height:80px}
+.inv{text-align:left;font-size:13px;line-height:1.7}
+.inv b.t{font-size:18px;display:block;margin-bottom:6px}
+.parties{display:flex;justify-content:space-between;margin-top:34px;min-height:120px;font-size:13px;gap:20px}
+.parties>div{width:46%;white-space:pre-wrap;line-height:1.6}
+.parties h4{margin:0 0 6px;font-size:14px}
+.th,.tr{display:grid;grid-template-columns:1fr 70px 120px 130px;padding:0 18px;align-items:center}
+.th{background:#5f9a2a;color:#fff;font-weight:700;height:44px;border-radius:10px;font-size:15px}
+.tr{height:46px;font-size:13px}
+.th>*:nth-child(n+2),.tr>*:nth-child(n+2){text-align:left}
+.tot{margin-top:30px;border-top:1px solid #999;border-bottom:1px solid #999;padding:10px 18px;display:flex;justify-content:space-between;font-size:13px}
+.pm{white-space:pre-wrap;font-size:11px;line-height:1.7;width:36%;padding-top:6px}
+.sm{width:60%}
+.sm div{display:grid;grid-template-columns:1fr 140px;height:30px;align-items:center}
+.sm div span:first-child{font-weight:700;font-size:14px}
+.sm div span:last-child{text-align:left}
+.terms{padding:14px 18px;font-size:12px;line-height:1.6;white-space:pre-wrap}
+.terms b{font-size:15px;display:block}
+@media print{
+ @page{size:A4;margin:0}
+ body{background:#fff}
+ .controls{display:none}
+ #wrap{padding:0}
+ .paper{zoom:1!important;box-shadow:none;width:210mm;min-height:297mm;height:297mm}
+ *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
 </style>
 </head>
 <body>
-<div class="sheet">
-  <div class="row"><input class="name" type="text"><input class="val" type="text"></div>
-  <div class="row"><input class="name" type="text"><input class="val" type="text"></div>
-  <div class="row"><input class="name" type="text"><input class="val" type="text"></div>
-  <div class="row"><input class="name" type="text"><input class="val" type="text"></div>
-  <div class="row"><input class="name" type="text"><input class="val" type="text"></div>
-  <button onclick="window.print()">طباعة / حفظ PDF</button>
+<div class="controls">
+ <div class="card"><h2>المرسل والعميل</h2>
+  <label>الشعار (اختياري)</label><input type="file" id="logo" accept="image/*">
+  <label>From (المرسل)</label><textarea id="from"></textarea>
+  <label>Bill To (العميل)</label><textarea id="to"></textarea>
+ </div>
+ <div class="card"><h2>الأصناف (الاسم / الكمية / السعر)</h2>
+  <div id="items"></div>
+  <button class="b add" id="add" type="button">+ إضافة صنف</button>
+ </div>
+ <div class="card"><h2>الحسابات</h2>
+  <div class="row"><div><label>العملة</label><input id="cur" value="EGP"></div>
+  <div><label>الضريبة %</label><input id="tax" type="number" value="14" step="any"></div></div>
+  <label>الشحن</label><input id="ship" type="number" value="250" step="any">
+  <label>طريقة الدفع</label><textarea id="pm">PAYMENT METHOD
+FULL INVOICE AMOUNT
+RECEIVED ONLINE
+BANK ACCOUNT ENDING IN 2324</textarea>
+  <label>الشروط والأحكام</label><textarea id="terms" style="min-height:110px">In case of an issue please use your invoice no. as your reference no. In case of an issue regarding this sale please give us a call at ________. Please check all products, in case of any issues mention it on the delivery sheet and sign. Delivery claims will not be accepted after the driver has left.</textarea>
+ </div>
+ <button class="b pr" id="print" type="button">طباعة / حفظ PDF</button>
+ <button class="b add" id="new" type="button">فاتورة جديدة (يزود الرقم)</button>
 </div>
+<div id="wrap"><div class="paper" id="paper"></div></div>
+<script>
+var $=function(i){return document.getElementById(i)};
+var items=[{n:"اسم الصنف",q:36,p:89.7},{n:"",q:18,p:112.5},{n:"",q:24,p:119.7},{n:"",q:12,p:134}];
+var logoData="";
+var MN=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+function today(){var d=new Date();return MN[d.getMonth()]+" "+d.getDate()+", "+d.getFullYear()}
+var seq=1201;
+try{seq=parseInt(localStorage.getItem("invSeq"))||1201}catch(e){}
+function invNo(){return "EA"+seq+"-"+new Date().getFullYear()}
+function bump(){seq++;try{localStorage.setItem("invSeq",seq)}catch(e){}}
+function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
+function f(n){return n.toLocaleString("en-US",{minimumFractionDigits:2,maximumFractionDigits:2,useGrouping:false})}
+function drawItems(){
+ var h="";
+ items.forEach(function(it,i){
+  h+='<div class="item"><input data-i="'+i+'" data-k="n" value="'+esc(it.n)+'" placeholder="Item"><input data-i="'+i+'" data-k="q" type="number" value="'+it.q+'" step="any"><input data-i="'+i+'" data-k="p" type="number" value="'+it.p+'" step="any"><button type="button" data-d="'+i+'">×</button></div>';
+ });
+ $("items").innerHTML=h;
+}
+function render(){
+ var c=$("cur").value,tr=parseFloat($("tax").value)||0,sh=parseFloat($("ship").value)||0,sub=0,rows="";
+ items.forEach(function(it){
+  var t=(+it.q||0)*(+it.p||0);sub+=t;
+  rows+='<div class="tr"><span>'+esc(it.n)+'</span><span>'+(+it.q||0)+'</span><span>'+c+' '+f(+it.p||0)+'</span><span>'+c+' '+f(t)+'</span></div>';
+ });
+ var tax=Math.round(sub*tr)/100,total=sub+tax+sh;
+ $("paper").innerHTML='<div class="top"></div><div class="in">'+
+ '<div class="hd"><div class="logo">'+(logoData?'<img src="'+logoData+'">':'LOGO')+'</div><div class="inv"><b class="t">INVOICE</b>Invoice No: '+esc(invNo())+'<br>Invoice Date: '+esc(today())+'</div></div>'+
+ '<div class="parties"><div><h4>FROM</h4>'+esc($("from").value)+'</div><div><h4>BILL TO :</h4>'+esc($("to").value)+'</div></div>'+
+ '<div class="th"><span>ITEM NAME</span><span>QTY</span><span>PRICE</span><span>TOTAL</span></div>'+rows+
+ '<div class="tot"><div class="pm">'+esc($("pm").value)+'</div><div class="sm"><div><span>SUB TOTAL</span><span>'+c+' '+f(sub)+'</span></div><div><span>TAX('+tr+'%)</span><span>'+c+' '+f(tax)+'</span></div><div><span>SHIPPING</span><span>'+c+' '+f(sh)+'</span></div><div><span>TOTAL</span><span>'+c+' '+f(total)+'</span></div></div></div>'+
+ '<div class="terms"><b>TERMS AND CONDITIONS</b>'+esc($("terms").value)+'</div></div><div class="bot"></div>';
+ fit();
+}
+function fit(){
+ var s=Math.min(1,(window.innerWidth-16)/794);
+ $("paper").style.zoom=s;
+}
+$("items").addEventListener("input",function(e){
+ var t=e.target,i=t.getAttribute("data-i");if(i===null)return;
+ items[i][t.getAttribute("data-k")]=t.value;render();
+});
+$("items").addEventListener("click",function(e){
+ var d=e.target.getAttribute("data-d");if(d===null)return;
+ items.splice(+d,1);drawItems();render();
+});
+$("add").onclick=function(){items.push({n:"",q:1,p:0});drawItems();render()};
+["from","to","cur","tax","ship","pm","terms"].forEach(function(i){$(i).addEventListener("input",render)});
+$("logo").onchange=function(e){
+ var file=e.target.files[0];if(!file)return;
+ var r=new FileReader();r.onload=function(){logoData=r.result;render()};r.readAsDataURL(file);
+};
+$("print").onclick=function(){try{window.print()}catch(e){}};
+$("new").onclick=function(){
+ bump();
+ items=[{n:"",q:1,p:0}];drawItems();render();
+};
+window.addEventListener("resize",fit);
+window.addEventListener("beforeprint",function(){$("paper").style.zoom=1});
+window.addEventListener("afterprint",fit);
+drawItems();render();
+</script>
 </body>
 </html>
 
