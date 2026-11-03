@@ -24,8 +24,8 @@ button.b{width:100%;padding:12px;border:0;border-radius:10px;font:inherit;font-w
 .pr{background:var(--g);color:#fff;font-size:16px}
 #wrap{display:flex;justify-content:center;padding:0 0 30px}
 .paper{width:794px;min-height:1123px;background:#fff;color:#222;position:relative;direction:ltr;font-family:Arial,Helvetica,sans-serif;box-shadow:0 2px 12px #0003;overflow:hidden;flex:none}
-.top{height:90px;background:#5f9a2a;clip-path:polygon(0 0,100% 0,100% 55%,78% 100%,0 70%)}
-.bot{position:absolute;bottom:0;left:0;right:0;height:60px;background:#5f9a2a;clip-path:polygon(0 100%,100% 100%,100% 40%,35% 0,0 40%)}
+.top{height:90px;background:var(--pc,#5f9a2a);clip-path:polygon(0 0,100% 0,100% 55%,78% 100%,0 70%)}
+.bot{position:absolute;bottom:0;left:0;right:0;height:60px;background:var(--pc,#5f9a2a);clip-path:polygon(0 100%,100% 100%,100% 40%,35% 0,0 40%)}
 .in{padding:0 56px}
 .hd{display:flex;justify-content:space-between;align-items:flex-start;margin-top:26px}
 .logo{width:150px;height:80px;display:flex;align-items:center;font-weight:700;font-size:15px}
@@ -34,9 +34,12 @@ button.b{width:100%;padding:12px;border:0;border-radius:10px;font:inherit;font-w
 .inv b.t{font-size:18px;display:block;margin-bottom:6px}
 .parties{display:flex;justify-content:space-between;margin-top:34px;min-height:120px;font-size:13px;gap:20px}
 .parties>div{width:46%;white-space:pre-wrap;line-height:1.6}
-.parties h4{margin:0 0 6px;font-size:14px}
+.parties h4{margin:0 0 8px;font-size:14px}
+.ln{display:flex;align-items:center;gap:10px;margin-bottom:11px;font-weight:600}
+.ln svg{flex:none}
+.bl{font-weight:600;margin-bottom:6px}
 .th,.tr{display:grid;grid-template-columns:1fr 70px 120px 130px;padding:0 18px;align-items:center}
-.th{background:#5f9a2a;color:#fff;font-weight:700;height:44px;border-radius:10px;font-size:15px}
+.th{background:var(--pc,#5f9a2a);color:#fff;font-weight:700;height:44px;border-radius:10px;font-size:15px}
 .tr{height:46px;font-size:13px}
 .th>*:nth-child(n+2),.tr>*:nth-child(n+2){text-align:left}
 .tot{margin-top:30px;border-top:1px solid #999;border-bottom:1px solid #999;padding:10px 18px;display:flex;justify-content:space-between;font-size:13px}
@@ -61,8 +64,20 @@ button.b{width:100%;padding:12px;border:0;border-radius:10px;font:inherit;font-w
 <div class="controls">
  <div class="card"><h2>المرسل والعميل</h2>
   <label>الشعار (اختياري)</label><input type="file" id="logo" accept="image/*">
-  <label>From (المرسل)</label><textarea id="from"></textarea>
-  <label>Bill To (العميل)</label><textarea id="to"></textarea>
+  <label>اللون الأساسي</label><input type="color" id="pc" value="#5f9a2a" style="height:44px;padding:2px">
+ </div>
+ <div class="card"><h2>بيانات المرسل</h2>
+  <label>الاسم</label><input id="fn" value="El Hamd - egc">
+  <div class="row"><div><label>التليفون</label><input id="fph" value="0238044715"></div>
+  <div><label>الإيميل</label><input id="fem" value="elhamd@herb.com"></div></div>
+  <label>الموقع</label><input id="fweb" value="www.elhamd.com">
+  <label>العنوان</label><input id="fad" value="13 st. giza egypt">
+ </div>
+ <div class="card"><h2>بيانات العميل (Bill To)</h2>
+  <label>الاسم</label><input id="tn">
+  <div class="row"><div><label>التليفون</label><input id="tph"></div>
+  <div><label>الإيميل</label><input id="tem"></div></div>
+  <label>العنوان</label><input id="tad">
  </div>
  <div class="card"><h2>الأصناف (الاسم / الكمية / السعر)</h2>
   <div id="items"></div>
@@ -101,7 +116,12 @@ function drawItems(){
  });
  $("items").innerHTML=h;
 }
+function ic(p){return '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--pc)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">'+p+'</svg>'}
+var IC={u:ic('<circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/>'),p:ic('<path d="M5 4h4l2 5-2.5 1.5a11 11 0 005 5L15 13l5 2v4a2 2 0 01-2 2A16 16 0 013 6a2 2 0 012-2z"/>'),m:ic('<rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/>'),w:ic('<circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15 15 0 010 20M12 2a15 15 0 000 20"/>'),a:ic('<path d="M12 21s7-6.5 7-12a7 7 0 00-14 0c0 5.5 7 12 7 12z"/><circle cx="12" cy="9" r="2.5"/>')};
+function ln(i,id){var v=$(id).value;return v?'<div class="ln">'+i+'<span>'+esc(v)+'</span></div>':''}
+function bl(id,pre){var v=$(id).value;return v?'<div class="bl">'+(pre||'')+esc(v)+'</div>':''}
 function render(){
+ $("paper").style.setProperty("--pc",$("pc").value);
  var c=$("cur").value,tr=parseFloat($("tax").value)||0,sh=parseFloat($("ship").value)||0,sub=0,rows="";
  items.forEach(function(it){
   var t=(+it.q||0)*(+it.p||0);sub+=t;
@@ -110,7 +130,7 @@ function render(){
  var tax=Math.round(sub*tr)/100,total=sub+tax+sh;
  $("paper").innerHTML='<div class="top"></div><div class="in">'+
  '<div class="hd"><div class="logo">'+(logoData?'<img src="'+logoData+'">':'LOGO')+'</div><div class="inv"><b class="t">INVOICE</b>Invoice No: '+esc(invNo())+'<br>Invoice Date: '+esc(today())+'</div></div>'+
- '<div class="parties"><div><h4>FROM</h4>'+esc($("from").value)+'</div><div><h4>BILL TO :</h4>'+esc($("to").value)+'</div></div>'+
+ '<div class="parties"><div>'+ln(IC.u,"fn")+ln(IC.p,"fph")+ln(IC.m,"fem")+ln(IC.w,"fweb")+ln(IC.a,"fad")+'</div><div><h4>BILL TO :</h4>'+bl("tn")+bl("tem","email ")+bl("tph")+bl("tad")+'</div></div>'+
  '<div class="th"><span>ITEM NAME</span><span>QTY</span><span>PRICE</span><span>TOTAL</span></div>'+rows+
  '<div class="tot"><div class="pm">'+esc($("pm").value)+'</div><div class="sm"><div><span>SUB TOTAL</span><span>'+c+' '+f(sub)+'</span></div><div><span>TAX('+tr+'%)</span><span>'+c+' '+f(tax)+'</span></div><div><span>SHIPPING</span><span>'+c+' '+f(sh)+'</span></div><div><span>TOTAL</span><span>'+c+' '+f(total)+'</span></div></div></div>'+
  '<div class="terms"><b>TERMS AND CONDITIONS</b>'+esc($("terms").value)+'</div></div><div class="bot"></div>';
@@ -129,7 +149,7 @@ $("items").addEventListener("click",function(e){
  items.splice(+d,1);drawItems();render();
 });
 $("add").onclick=function(){items.push({n:"",q:1,p:0});drawItems();render()};
-["from","to","cur","tax","ship","pm","terms"].forEach(function(i){$(i).addEventListener("input",render)});
+["pc","fn","fph","fem","fweb","fad","tn","tph","tem","tad","cur","tax","ship","pm","terms"].forEach(function(i){$(i).addEventListener("input",render)});
 $("logo").onchange=function(e){
  var file=e.target.files[0];if(!file)return;
  var r=new FileReader();r.onload=function(){logoData=r.result;render()};r.readAsDataURL(file);
