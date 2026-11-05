@@ -29,8 +29,8 @@ button.b{width:100%;padding:12px;border:0;border-radius:10px;font:inherit;font-w
 .bot{position:absolute;bottom:0;left:0;right:0;height:60px;background:var(--pc,#5f9a2a);clip-path:polygon(0 100%,100% 100%,100% 40%,35% 0,0 40%)}
 .in{padding:0 56px 90px}
 .hd{display:flex;justify-content:space-between;align-items:flex-start;margin-top:26px}
-.logo{width:150px;height:80px;display:flex;align-items:center;font-weight:700;font-size:15px}
-.logo img{max-width:150px;max-height:80px}
+.logo{width:220px;height:120px;display:flex;align-items:center;font-weight:700;font-size:15px}
+.logo img{max-width:220px;max-height:120px}
 .inv{text-align:left;font-size:13px;line-height:1.7}
 .inv b.t{font-size:18px;display:block;margin-bottom:6px}
 .parties{display:flex;justify-content:space-between;margin-top:34px;min-height:120px;font-size:13px;gap:20px}
@@ -85,10 +85,12 @@ button.b{width:100%;padding:12px;border:0;border-radius:10px;font:inherit;font-w
   <div><label>السجل التجاري</label><input id="fcr"></div></div>
  </div>
  <div class="card"><h2>بيانات العميل (Bill To)</h2>
-  <label>الاسم</label><input id="tn">
-  <div class="row"><div><label>التليفون</label><input id="tph"></div>
-  <div><label>الإيميل</label><input id="tem"></div></div>
-  <label>العنوان</label><input id="tad">
+  <label>الاسم</label><input id="tn" value="sameh mohamed">
+  <label>الإيميل</label><input id="tem" value="sameh_mohamed@hotmail.com">
+  <label>العنوان</label><input id="tad" value="15 shaheen st.el agoza giza">
+  <label>التليفون</label><input id="tph" value="+20125874510">
+  <div class="row"><div><label>السجل التجاري</label><input id="tcr"></div>
+  <div><label>البطاقة الضريبية</label><input id="ttx"></div></div>
  </div>
  <div class="card"><h2>الأصناف (الاسم / الكمية / السعر)</h2>
   <div id="items"></div>
@@ -144,7 +146,7 @@ function render(){
  var tax=Math.round(sub*tr)/100,total=sub+tax+sh;
  $("paper").innerHTML='<div class="top"></div><div class="in">'+
  '<div class="hd"><div class="logo">'+(logoData?'<img src="'+logoData+'">':'LOGO')+'</div><div class="inv"><b class="t">INVOICE</b>Invoice No: '+esc($("no").value)+'<br>Invoice Date: '+esc(fmtDate($("dt").value))+'</div></div>'+
- '<div class="parties"><div>'+ln(IC.u,"fn")+ln(IC.p,"fph")+ln(IC.m,"fem")+ln(IC.w,"fweb")+ln(IC.a,"fad")+ln(IC.d,"ftx","Tax Reg. No: ")+ln(IC.d,"fcr","Commercial Reg. No: ")+'</div><div><h4>BILL TO :</h4>'+bl("tn")+bl("tem","email ")+bl("tph")+bl("tad")+'</div></div>'+
+ '<div class="parties"><div>'+ln(IC.u,"fn")+ln(IC.p,"fph")+ln(IC.m,"fem")+ln(IC.w,"fweb")+ln(IC.a,"fad")+ln(IC.d,"ftx","Tax Reg. No: ")+ln(IC.d,"fcr","Commercial Reg. No: ")+'</div><div><h4>BILL TO :</h4>'+ln(IC.u,"tn")+ln(IC.m,"tem")+ln(IC.a,"tad")+ln(IC.p,"tph")+ln(IC.d,"tcr","Commercial Reg. No: ")+ln(IC.d,"ttx","Tax Reg. No: ")+'</div></div>'+
  '<div class="th"><span>ITEM NAME</span><span>QTY</span><span>PRICE</span><span>TOTAL</span></div>'+rows+
  '<div class="tot"><div class="pm">'+esc($("pm").value)+'</div><div class="sm"><div><span>SUB TOTAL</span><span>'+c+' '+f(sub)+'</span></div><div><span>TAX('+tr+'%)</span><span>'+c+' '+f(tax)+'</span></div><div><span>SHIPPING</span><span>'+c+' '+f(sh)+'</span></div><div><span>TOTAL</span><span>'+c+' '+f(total)+'</span></div></div></div>'+
  '<div class="terms"><b>TERMS AND CONDITIONS</b>'+esc($("terms").value)+'</div></div><div class="bot"></div>';
@@ -163,7 +165,7 @@ $("items").addEventListener("click",function(e){
  items.splice(+d,1);drawItems();render();
 });
 $("add").onclick=function(){items.push({n:"",q:1,p:0});drawItems();render()};
-["no","dt","pc","fn","ftx","fcr","fph","fem","fweb","fad","tn","tph","tem","tad","cur","tax","ship","pm","terms"].forEach(function(i){$(i).addEventListener("input",render)});
+["no","dt","pc","fn","ftx","fcr","fph","fem","fweb","fad","tn","tem","tad","tph","tcr","ttx","cur","tax","ship","pm","terms"].forEach(function(i){$(i).addEventListener("input",render)});
 $("logo").onchange=function(e){
  var file=e.target.files[0];if(!file)return;
  var r=new FileReader();r.onload=function(){logoData=r.result;render()};r.readAsDataURL(file);
